@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { GoogleGenAI } from '@google/genai';
 
 export async function POST(req: Request) {
   try {
@@ -29,46 +30,25 @@ Phong cách trả lời:
 
 Nếu câu hỏi không liên quan đến chủ đề, lịch sự từ chối và hướng dẫn người dùng quay lại chủ đề chính.`;
 
-    // Format messages for Gemini API
-    const contents = [
-      {
-        role: 'user',
-        parts: [{ text: systemPrompt }]
-      },
-      ...messages.map((msg: { role: string; content: string }) => ({
-        role: msg.role === 'user' ? 'user' : 'model',
-        parts: [{ text: msg.content }]
-      }))
-    ];
+    // Initialize Google GenAI
+    const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents,
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 800,
-          },
-        }),
-      }
-    );
+    // Format conversation history
+    const conversationHistory = messages
+      .map((msg: { role: string; content: string }) => 
+        `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.content}`
+      )
+      .join('\n\n');
 
-    const data = await response.json();
+    const fullPrompt = `${systemPrompt}\n\n${conversationHistory}\n\nAssistant:`;
 
-    if (!response.ok) {
-      console.error('Gemini API error:', data);
-      return NextResponse.json(
-        { error: 'Failed to get response from AI' },
-        { status: response.status }
-      );
-    }
+    // Generate response using the new SDK
+    const response = await ai.models.generateContent({
+      model: 'gemini-1.5-flash',
+      contents: fullPrompt,
+    });
 
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Xin lỗi, tôi không thể trả lời lúc này.';
+    const reply = response.text || 'Xin lỗi, tôi không thể trả lời lúc này.';
 
     return NextResponse.json({ reply });
   } catch (error) {
