@@ -42,7 +42,6 @@ export default function Home() {
             href="/noi-dung-chinh"
             className="bg-white border border-[#E5E5E5] rounded-lg p-6 hover:border-[#A61F2B] transition-colors duration-200 group"
           >
-            <div className="text-3xl mb-4">📚</div>
             <h3 className="text-lg font-semibold text-[#1C1C1C] mb-2 group-hover:text-[#A61F2B]">
               Nội dung chính
             </h3>
@@ -55,7 +54,6 @@ export default function Home() {
             href="/on-tap-quiz"
             className="bg-white border border-[#E5E5E5] rounded-lg p-6 hover:border-[#A61F2B] transition-colors duration-200 group"
           >
-            <div className="text-3xl mb-4">📹</div>
             <h3 className="text-lg font-semibold text-[#1C1C1C] mb-2 group-hover:text-[#A61F2B]">
               Video Tổng Hợp Kiến Thức
             </h3>
@@ -65,7 +63,6 @@ export default function Home() {
           </Link>
 
           <div className="bg-white border border-[#E5E5E5] rounded-lg p-6">
-            <div className="text-3xl mb-4">🤖</div>
             <h3 className="text-lg font-semibold text-[#1C1C1C] mb-2">
               Trợ lý AI
             </h3>
