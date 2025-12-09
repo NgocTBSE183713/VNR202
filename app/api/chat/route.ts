@@ -47,10 +47,8 @@ Nếu câu hỏi không liên quan đến chủ đề, lịch sự từ chối v
         systemInstruction: {
           parts: [{ text: systemPrompt }]
         },
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 800,
-        },
+        temperature: 0.7,
+        maxOutputTokens: 800,
       }
     });
 
