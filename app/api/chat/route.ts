@@ -14,6 +14,8 @@ export async function POST(req: Request) {
       );
     }
 
+    const client = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+
     const systemPrompt = `Bạn là một trợ lý AI chuyên về lịch sử Việt Nam, đặc biệt là đường lối cách mạng của Đảng Cộng sản Việt Nam giai đoạn 1930–1945.
 
 Nhiệm vụ của bạn:
@@ -30,31 +32,51 @@ Phong cách trả lời:
 
 Nếu câu hỏi không liên quan đến chủ đề, lịch sự từ chối và hướng dẫn người dùng quay lại chủ đề chính.`;
 
-    // Initialize Google GenAI
-    const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+    // Format messages for Gemini API
+    const contents = messages.map((msg: { role: string; content: string }) => ({
+      role: msg.role === 'user' ? 'user' : 'model',
+      parts: [{ text: msg.content }]
+    }));
 
-    // Format conversation history
-    const conversationHistory = messages
-      .map((msg: { role: string; content: string }) => 
-        `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.content}`
-      )
-      .join('\n\n');
+    console.log('Sending request to Gemini with contents:', JSON.stringify(contents, null, 2));
 
-    const fullPrompt = `${systemPrompt}\n\n${conversationHistory}\n\nAssistant:`;
-
-    // Generate response using the new SDK
-    const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
-      contents: fullPrompt,
+    const response = await client.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: contents,
+      config: {
+        systemInstruction: {
+          parts: [{ text: systemPrompt }]
+        },
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 800,
+        },
+      }
     });
 
-    const reply = response.text || 'Xin lỗi, tôi không thể trả lời lúc này.';
+    console.log('Gemini response received');
+
+    // Handle response.text whether it's a property or function (depending on SDK version)
+    // @ts-ignore
+    const reply = typeof response.text === 'function' ? response.text() : response.text;
+
+    if (!reply) {
+      console.error('No text in response:', response);
+      return NextResponse.json(
+        { error: 'No response text received from AI' },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({ reply });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Chat API error:', error);
+    // Log detailed error if available
+    if (error.response) {
+      console.error('API Error details:', JSON.stringify(error.response, null, 2));
+    }
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: error.message || 'Internal server error' },
       { status: 500 }
     );
   }
