@@ -219,8 +219,8 @@ const sections: Section[] = [
               <p className="text-gray-700 mb-2">Trước tình hình đó, Đảng có chủ trương chiến lược mới:</p>
               <ul className="list-disc pl-5 space-y-2 text-gray-700">
                 <li>Thông báo 29/9/1939 dự báo nhiệm vụ trung tâm sẽ là giải phóng dân tộc.</li>
-                <li><strong>Hội nghị TW 6 (11/1939):</strong> Xác định con đường cứu nước là đánh đổ ách ngoại xâm; tạm gác cách mạng ruộng đất, tập trung chống Pháp – Nhật; lập Mặt trận phản đế Đông Dương.</li>
-                <li><strong>Hội nghị TW 8 (5/1941):</strong> Tại Pác Bó do Nguyễn Ái Quốc chủ trì:
+                <li><strong>Hội nghị Trung Ương 6 (11/1939):</strong> Xác định con đường cứu nước là đánh đổ ách ngoại xâm; tạm gác cách mạng ruộng đất, tập trung chống Pháp – Nhật; lập Mặt trận phản đế Đông Dương.</li>
+                <li><strong>Hội nghị Trung Ương 8 (5/1941):</strong> Tại Pác Bó do Nguyễn Ái Quốc chủ trì:
                   <ul className="list-circle pl-5 mt-1 space-y-1">
                     <li>Khẳng định nhiệm vụ hàng đầu là <strong>cách mạng dân tộc giải phóng</strong>.</li>
                     <li>Thành lập <strong>Mặt trận Việt Minh</strong>.</li>
