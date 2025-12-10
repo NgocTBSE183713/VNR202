@@ -11,7 +11,8 @@ import { motion, AnimatePresence } from "framer-motion";
 const ROUTES = {
   HOME: "/",
   NOIDUNG: "/noi-dung-chinh",
-  ONTAP: "/on-tap-quiz"
+  ONTAP: "/on-tap-quiz",
+  THANHVIEN: "/thanh-vien"
 };
 
 export default function Navbar() {
@@ -124,7 +125,8 @@ export default function Navbar() {
             {[
               { name: "Trang chủ", path: ROUTES.HOME },
               { name: "Nội dung chính", path: ROUTES.NOIDUNG },
-              { name: "Video Tổng Hợp", path: ROUTES.ONTAP }
+              { name: "Video Tổng Hợp", path: ROUTES.ONTAP },
+              { name: "Thành viên & Báo cáo", path: ROUTES.THANHVIEN }
             ].map((item, index) => (
               <Link
                 key={item.name}
@@ -139,7 +141,7 @@ export default function Navbar() {
                     pathname === item.path ? 'w-full' : 'w-0 group-hover:w-full'
                   }`}></span>
                 </span>
-                {index < 2 && (
+                {index < 3 && (
                   <span className="absolute -right-4 top-1/2 transform -translate-y-1/2 text-black/40">/</span>
                 )}
               </Link>
@@ -193,7 +195,8 @@ export default function Navbar() {
                 {[
                   { name: "Trang chủ", path: ROUTES.HOME },
                   { name: "Nội dung chính", path: ROUTES.NOIDUNG },
-                  { name: "Ôn tập", path: ROUTES.ONTAP }
+                  { name: "Ôn tập", path: ROUTES.ONTAP },
+                  { name: "Thành viên & Báo cáo", path: ROUTES.THANHVIEN }
                 ].map((item) => (
                   <Link
                     key={item.name}
